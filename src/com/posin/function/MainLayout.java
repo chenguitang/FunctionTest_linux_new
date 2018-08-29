@@ -19,16 +19,38 @@ import org.eclipse.swt.widgets.Widget;
 import com.posin.function.color.MyColor;
 import com.posin.function.constant.AppConfig;
 import com.posin.function.font.MyFont;
+import com.posin.function.group.AboutGroup;
 import com.posin.function.group.CashDrawerGroup;
+import com.posin.function.group.DateTimeGroup;
+import com.posin.function.group.EthernetGroup;
+import com.posin.function.group.HornGroup;
+import com.posin.function.group.SecondaryDisplayGroup;
 import com.posin.function.group.SerialGroup;
+import com.posin.function.group.TouchGroup;
+import com.posin.function.group.WifiGroup;
 import com.posin.function.util.StringUtils;
 
 public class MainLayout implements MouseListener {
 
 	protected Shell shell;
+	// 顶部标题栏
 	private Composite titleComposite;
-	private CTabFolder tabFolder;
+	// 退出按钮
 	private Label exitAppLabel;
+	// 功能切换导航栏
+	private CTabFolder tabFolder;
+	// 功能切换页面
+	private CashDrawerGroup cashDrawerGroup;
+	private SerialGroup serialGroup;
+	private HornGroup hornGroup;
+	private WifiGroup wifiGroup;
+	private SecondaryDisplayGroup secondaryDisplayGroup;
+	private DateTimeGroup dateTimeGroup;
+	private EthernetGroup ethernetGroup;
+	private TouchGroup touchGroup;
+	private AboutGroup aboutGroup;
+	// 功能切换选项集合
+//	private ArrayList<BaseGroup> listGroups;
 
 	/**
 	 * Launch the application.
@@ -37,10 +59,10 @@ public class MainLayout implements MouseListener {
 	 */
 	public static void main(String[] args) {
 		try {
-//			MainLayout window = new MainLayout();
-//			window.open();
+			// MainLayout window = new MainLayout();
+			// window.open();
 			MainLayout.getInstance().open();
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -175,31 +197,83 @@ public class MainLayout implements MouseListener {
 	}
 
 	/**
-	 * Item 标题选项卡
+	 * Item 标题选项页
 	 */
 	private void displayItems() {
-		CashDrawerGroup cashDrawerGroup = new CashDrawerGroup(tabFolder,
-				SWT.NONE);
+		cashDrawerGroup = new CashDrawerGroup(tabFolder, SWT.NONE);
+		serialGroup = new SerialGroup(tabFolder, SWT.NONE);
+		hornGroup = new HornGroup(tabFolder, SWT.NONE);
+		wifiGroup = new WifiGroup(tabFolder, SWT.NONE);
+		secondaryDisplayGroup = new SecondaryDisplayGroup(tabFolder, SWT.NONE);
+		dateTimeGroup = new DateTimeGroup(tabFolder, SWT.NONE);
+		ethernetGroup = new EthernetGroup(tabFolder, SWT.NONE);
+		touchGroup = new TouchGroup(tabFolder, SWT.NONE);
+		aboutGroup = new AboutGroup(tabFolder, SWT.NONE);
 
-		SerialGroup serialGroup = new SerialGroup(tabFolder, SWT.NONE);
-
+		// 功能选项栏标题数组
 		String[] tabItemName = AppConfig.getTabItemName();
-		for (int i = 0; i < 9; i++) {
+		for (int i = 0; i < tabItemName.length; i++) {
 			CTabItem tabItem = new CTabItem(tabFolder, SWT.NONE);
 			tabItem.setFont(MyFont.fond_song_13);
 			String emptySpaceStr = StringUtils
 					.emptySpaceSize((18 - tabItemName[i].length()) / 2);
 			tabItem.setText(emptySpaceStr + tabItemName[i] + emptySpaceStr
 					+ " ");
-
-			if (i % 2 == 0) {
+			switch (i) {
+			case 0:
 				tabItem.setControl(cashDrawerGroup);
-			} else {
+				break;
+			case 1:
 				tabItem.setControl(serialGroup);
+				break;
+			case 2:
+				tabItem.setControl(hornGroup);
+				break;
+			case 3:
+				tabItem.setControl(wifiGroup);
+				break;
+			case 4:
+				tabItem.setControl(secondaryDisplayGroup);
+				break;
+			case 5:
+				tabItem.setControl(dateTimeGroup);
+				break;
+			case 6:
+				tabItem.setControl(ethernetGroup);
+				break;
+			case 7:
+				tabItem.setControl(touchGroup);
+				break;
+			case 8:
+				tabItem.setControl(aboutGroup);
+				break;
+			default:
+				tabItem.setControl(cashDrawerGroup);
+				break;
 			}
 
 		}
-
+//
+//		listGroups = new ArrayList<BaseGroup>();
+//		listGroups.add(cashDrawerGroup);
+//		listGroups.add(serialGroup);
+//		listGroups.add(hornGroup);
+//		listGroups.add(wifiGroup);
+//		listGroups.add(secondaryDisplayGroup);
+//		listGroups.add(dateTimeGroup);
+//		listGroups.add(ethernetGroup);
+//		listGroups.add(touchGroup);
+//		listGroups.add(aboutGroup);
+//		for (int i = 0; i < tabItemName.length; i++) {
+//
+//			if (listGroups.size() > i) {
+//
+//				BaseGroup baseGroup = listGroups.get(i);
+//
+//				tabItem.setControl(listGroups.get(i));
+//			}
+//
+//		}
 	}
 
 	/**

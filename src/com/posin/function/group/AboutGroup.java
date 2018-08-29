@@ -9,15 +9,26 @@ public class AboutGroup extends BaseGroup {
 
 	public AboutGroup(Composite parent, int style) {
 		super(parent, style);
-		
-		initView();
 	}
 	
 
-	private void initView() {
-
+	@Override
+	public void initUI() {
 		setBackground(MyColor.colorWhite);
 		
+	}
+
+
+	@Override
+	public void initData() {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void initEvent() {
+		// TODO Auto-generated method stub
 		
 	}
 	
