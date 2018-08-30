@@ -13,7 +13,6 @@ public class WifiGroup extends BaseGroup {
 
 	@Override
 	public void initUI() {
-		setBackground(MyColor.colorWhite);
 
 	}
 

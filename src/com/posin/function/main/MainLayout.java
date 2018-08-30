@@ -1,4 +1,6 @@
-package com.posin.function;
+package com.posin.function.main;
+
+import java.util.ArrayList;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CTabFolder;
@@ -16,6 +18,7 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Widget;
 
+import com.posin.function.base.BaseGroup;
 import com.posin.function.color.MyColor;
 import com.posin.function.constant.AppConfig;
 import com.posin.function.font.MyFont;
@@ -28,6 +31,7 @@ import com.posin.function.group.SecondaryDisplayGroup;
 import com.posin.function.group.SerialGroup;
 import com.posin.function.group.TouchGroup;
 import com.posin.function.group.WifiGroup;
+import com.posin.function.util.DisplayUtils;
 import com.posin.function.util.StringUtils;
 
 public class MainLayout implements MouseListener {
@@ -50,7 +54,12 @@ public class MainLayout implements MouseListener {
 	private TouchGroup touchGroup;
 	private AboutGroup aboutGroup;
 	// 功能切换选项集合
-//	private ArrayList<BaseGroup> listGroups;
+	private ArrayList<BaseGroup> listGroups;
+
+	// 宽
+	private int mWidth = 1920;
+	// 高
+	private int mHeight = 1080;
 
 	/**
 	 * Launch the application.
@@ -98,11 +107,12 @@ public class MainLayout implements MouseListener {
 	 * Create contents of the window.
 	 */
 	protected void createContents() {
+		initData();
 		// shell = new Shell();
 		shell = new Shell(SWT.NONE);
 		// shell.setSize(1920, 1080);
-		shell.setBounds(0, 0, 1920, 1080);
-		shell.setText("SWT Application");
+		shell.setBounds(0, 0, mWidth, mHeight);
+		shell.setText("功能测试");
 		FormLayout formlayout = new FormLayout(); // 创建表格布局对象
 		shell.setLayout(formlayout);
 
@@ -111,6 +121,18 @@ public class MainLayout implements MouseListener {
 		initEvent();
 	}
 
+	/**
+	 * 初始化数据
+	 */
+	private void initData() {
+		int[] resolution = DisplayUtils.getResolution();
+		mWidth = resolution[0];
+		mHeight = resolution[1];
+	}
+
+	/**
+	 * 初始化事件监听
+	 */
 	private void initEvent() {
 		exitAppLabel.addMouseListener(this);
 
@@ -200,6 +222,8 @@ public class MainLayout implements MouseListener {
 	 * Item 标题选项页
 	 */
 	private void displayItems() {
+
+		// 实例化每个功能选项
 		cashDrawerGroup = new CashDrawerGroup(tabFolder, SWT.NONE);
 		serialGroup = new SerialGroup(tabFolder, SWT.NONE);
 		hornGroup = new HornGroup(tabFolder, SWT.NONE);
@@ -210,70 +234,45 @@ public class MainLayout implements MouseListener {
 		touchGroup = new TouchGroup(tabFolder, SWT.NONE);
 		aboutGroup = new AboutGroup(tabFolder, SWT.NONE);
 
+		// 把每个选项添加到集合中
+		listGroups = new ArrayList<BaseGroup>();
+		listGroups.add(cashDrawerGroup);
+		listGroups.add(serialGroup);
+		listGroups.add(hornGroup);
+		listGroups.add(wifiGroup);
+		listGroups.add(secondaryDisplayGroup);
+		listGroups.add(dateTimeGroup);
+		listGroups.add(ethernetGroup);
+		listGroups.add(touchGroup);
+		listGroups.add(aboutGroup);
+
 		// 功能选项栏标题数组
 		String[] tabItemName = AppConfig.getTabItemName();
+
+		// 循环把每个选项添加到父控件中
 		for (int i = 0; i < tabItemName.length; i++) {
-			CTabItem tabItem = new CTabItem(tabFolder, SWT.NONE);
-			tabItem.setFont(MyFont.fond_song_13);
-			String emptySpaceStr = StringUtils
-					.emptySpaceSize((18 - tabItemName[i].length()) / 2);
-			tabItem.setText(emptySpaceStr + tabItemName[i] + emptySpaceStr
-					+ " ");
-			switch (i) {
-			case 0:
-				tabItem.setControl(cashDrawerGroup);
-				break;
-			case 1:
-				tabItem.setControl(serialGroup);
-				break;
-			case 2:
-				tabItem.setControl(hornGroup);
-				break;
-			case 3:
-				tabItem.setControl(wifiGroup);
-				break;
-			case 4:
-				tabItem.setControl(secondaryDisplayGroup);
-				break;
-			case 5:
-				tabItem.setControl(dateTimeGroup);
-				break;
-			case 6:
-				tabItem.setControl(ethernetGroup);
-				break;
-			case 7:
-				tabItem.setControl(touchGroup);
-				break;
-			case 8:
-				tabItem.setControl(aboutGroup);
-				break;
-			default:
-				tabItem.setControl(cashDrawerGroup);
-				break;
+			if (listGroups.size() > i) {
+				CTabItem tabItem = new CTabItem(tabFolder, SWT.NONE);
+				tabItem.setFont(MyFont.fond_song_13);
+				String emptySpaceStr = null;
+				if (mWidth >= 1920) {
+					emptySpaceStr = StringUtils
+							.emptySpaceSize((18 - tabItemName[i].length()) / 2);
+					tabItem.setText(emptySpaceStr + tabItemName[i]
+							+ emptySpaceStr + " ");
+				} else {
+					emptySpaceStr = StringUtils
+							.emptySpaceSize((13 - tabItemName[i].length()) / 2);
+					if (i == 3) {
+						emptySpaceStr = emptySpaceStr + "   ";
+					}
+					tabItem.setText(emptySpaceStr + tabItemName[i]
+							+ emptySpaceStr);
+				}
+				tabItem.setControl(listGroups.get(i));
 			}
 
 		}
-//
-//		listGroups = new ArrayList<BaseGroup>();
-//		listGroups.add(cashDrawerGroup);
-//		listGroups.add(serialGroup);
-//		listGroups.add(hornGroup);
-//		listGroups.add(wifiGroup);
-//		listGroups.add(secondaryDisplayGroup);
-//		listGroups.add(dateTimeGroup);
-//		listGroups.add(ethernetGroup);
-//		listGroups.add(touchGroup);
-//		listGroups.add(aboutGroup);
-//		for (int i = 0; i < tabItemName.length; i++) {
-//
-//			if (listGroups.size() > i) {
-//
-//				BaseGroup baseGroup = listGroups.get(i);
-//
-//				tabItem.setControl(listGroups.get(i));
-//			}
-//
-//		}
 	}
 
 	/**

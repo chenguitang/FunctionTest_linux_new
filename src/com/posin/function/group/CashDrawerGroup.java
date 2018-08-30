@@ -17,12 +17,11 @@ public class CashDrawerGroup extends BaseGroup {
 
 	@Override
 	public void initUI() {
-		setBackground(MyColor.colorRed);
 		
-		Label label = new Label(this,SWT.NONE);
-		label.setBackground(MyColor.colorRed);
-		label.setText("1233");
-		label.setSize(300,150);
+//		Label label = new Label(this,SWT.NONE);
+//		label.setBackground(MyColor.colorRed);
+//		label.setText("1233");
+//		label.setSize(300,150);
 		
 		
 		

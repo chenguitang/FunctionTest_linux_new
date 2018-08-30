@@ -14,7 +14,6 @@ public class SerialGroup extends BaseGroup {
 
 	@Override
 	public void initUI() {
-		setBackground(MyColor.colorWhite);
 		
 	}
 

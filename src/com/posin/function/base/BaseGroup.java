@@ -9,7 +9,10 @@ public abstract class BaseGroup extends Group {
 
 	public BaseGroup(Composite parent, int style) {
 		super(parent, style);
-//		setBackground(MyColor.colorWhite);
+		setBackground(MyColor.colorWhite);
+		initUI();
+		initData();
+		initEvent();
 	}
 
 	@Override

@@ -14,7 +14,6 @@ public class AboutGroup extends BaseGroup {
 
 	@Override
 	public void initUI() {
-		setBackground(MyColor.colorWhite);
 		
 	}
 
