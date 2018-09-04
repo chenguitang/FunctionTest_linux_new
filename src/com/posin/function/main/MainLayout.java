@@ -156,13 +156,6 @@ public class MainLayout implements MouseListener {
 		gridLayout.makeColumnsEqualWidth = false;
 		titleComposite.setLayout(gridLayout);
 
-		// 应用图标
-		// Label appIconLabel = new Label(titleComposite, SWT.CENTER);
-		// Image image = new Image(null,
-		// this.getClass().getResourceAsStream("/images/test.jpg"));
-		// appIconLabel.setImage(image);
-		// appIconLabel.addMouseListener(this);
-
 		// 应用名称
 		Label appNameLabel = new Label(titleComposite, SWT.CENTER);
 		appNameLabel.setText(" 功能测试");
