@@ -4,21 +4,24 @@ import java.io.IOException;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Image;
-import org.eclipse.swt.layout.FormAttachment;
-import org.eclipse.swt.layout.FormData;
-import org.eclipse.swt.layout.FormLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Monitor;
 
 import com.posin.function.base.BaseGroup;
-import com.posin.function.color.MyColor;
+import com.posin.function.util.DisplayUtils;
 import com.posin.function.util.Proc;
 import com.posin.function.view.ImageButton;
 import com.posin.function.view.ImageButton.OnClickListener;
 
+/**
+ * «Æœ‰≤‚ ‘“≥√Ê
+ * 
+ * @author Greetty
+ * 
+ */
 public class CashDrawerGroup extends BaseGroup implements OnClickListener {
 
 	/**
@@ -113,7 +116,6 @@ public class CashDrawerGroup extends BaseGroup implements OnClickListener {
 				e.printStackTrace();
 			}
 			break;
-
 		default:
 			break;
 		}

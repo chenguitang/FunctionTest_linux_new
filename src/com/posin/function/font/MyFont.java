@@ -7,6 +7,12 @@ import org.eclipse.swt.widgets.Display;
 public class MyFont {
 
 	/**
+	 * 宋体，字体大小：32
+	 */
+	public static Font fond_song_light_32 = new Font(Display.getDefault(),
+			"宋体", 32, SWT.NORMAL);
+
+	/**	
 	 * 宋体，字体大小：18
 	 */
 	public static Font fond_song_18 = new Font(Display.getDefault(), "宋体", 18,

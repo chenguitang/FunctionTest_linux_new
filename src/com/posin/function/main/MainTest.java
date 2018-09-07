@@ -5,8 +5,6 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 
-import com.posin.function.view.TestButton;
-
 public class MainTest {
 
 	protected Shell shell;

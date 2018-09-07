@@ -15,6 +15,7 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Monitor;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Widget;
 
@@ -37,6 +38,7 @@ import com.posin.function.util.StringUtils;
 public class MainLayout implements MouseListener {
 
 	protected Shell shell;
+	private Display mDisplay;
 	// 顶部标题栏
 	private Composite titleComposite;
 	// 退出按钮
@@ -92,13 +94,13 @@ public class MainLayout implements MouseListener {
 	 * Open the window.
 	 */
 	public void open() {
-		Display display = Display.getDefault();
+		mDisplay = Display.getDefault();
 		createContents();
 		shell.open();
 		shell.layout();
 		while (!shell.isDisposed()) {
-			if (!display.readAndDispatch()) {
-				display.sleep();
+			if (!mDisplay.readAndDispatch()) {
+				mDisplay.sleep();
 			}
 		}
 	}
@@ -126,6 +128,7 @@ public class MainLayout implements MouseListener {
 	 */
 	private void initData() {
 		int[] resolution = DisplayUtils.getResolution();
+
 		mWidth = resolution[0];
 		mHeight = resolution[1];
 	}
@@ -135,7 +138,6 @@ public class MainLayout implements MouseListener {
 	 */
 	private void initEvent() {
 		exitAppLabel.addMouseListener(this);
-
 	}
 
 	/**
@@ -287,12 +289,12 @@ public class MainLayout implements MouseListener {
 	 */
 	public void mouseUp(MouseEvent mouseEvent) {
 		Widget actinView = mouseEvent.widget;
-
 		if (actinView.equals(exitAppLabel)) {
-			System.out.println("....   exit app ....");
-			System.exit(0);
+			 System.out.println("....   exit app ....");
+			 System.exit(0);
+			
+//			shell.setVisible(false);
 		}
-
 	}
 
 }
