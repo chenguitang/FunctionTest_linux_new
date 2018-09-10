@@ -12,8 +12,10 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 
 import com.posin.function.base.BaseGroup;
+import com.posin.function.font.MyFont;
+import com.posin.function.view.CircleButton;
+import com.posin.function.view.CircleButton.OnClickListener;
 import com.posin.function.view.ImageButton;
-import com.posin.function.view.ImageButton.OnClickListener;
 
 /**
  * 喇叭测试页面
@@ -23,16 +25,8 @@ import com.posin.function.view.ImageButton.OnClickListener;
  */
 public class HornGroup extends BaseGroup implements OnClickListener {
 
-	/**
-	 * pin2开钱箱按钮校验码
-	 */
-	public static final int PLAY_CODE = 100;
-	/**
-	 * pin5开钱箱按钮校验码
-	 */
-	public static final int STOP_CODE = 101;
-	private ImageButton btnPlay;
-	private ImageButton btnStop;
+	private CircleButton cbtnPlay;
+	private CircleButton cbtnStop;
 
 	private AudioClip mAudioClip;
 
@@ -43,18 +37,6 @@ public class HornGroup extends BaseGroup implements OnClickListener {
 	@Override
 	public void initUI() {
 
-		Image normalPlayImage = new Image(Display.getCurrent(), this.getClass()
-				.getResourceAsStream("/images/play_music_normal.png"));
-
-		Image pressPlayImage = new Image(Display.getCurrent(), this.getClass()
-				.getResourceAsStream("/images/play_music_press.png"));
-
-		Image normalStopImage = new Image(Display.getCurrent(), this.getClass()
-				.getResourceAsStream("/images/stop_normal.png"));
-
-		Image pressStopImage = new Image(Display.getCurrent(), this.getClass()
-				.getResourceAsStream("/images/stop_press.png"));
-
 		GridLayout cashDrawerGridLayout = new GridLayout();
 		cashDrawerGridLayout.numColumns = 2;
 		cashDrawerGridLayout.horizontalSpacing = 200;
@@ -63,10 +45,10 @@ public class HornGroup extends BaseGroup implements OnClickListener {
 		// this.setLayout(new GridLayout(5, false));
 		this.setLayout(cashDrawerGridLayout);
 
-		btnPlay = new ImageButton(this, normalPlayImage, normalPlayImage,
-				pressPlayImage, normalPlayImage, HornGroup.PLAY_CODE);
-		btnStop = new ImageButton(this, normalStopImage, normalStopImage,
-				pressStopImage, normalStopImage, HornGroup.STOP_CODE);
+		cbtnPlay = new CircleButton(this, SWT.NONE, 180, "播放",
+				MyFont.fond_song_15);
+		cbtnStop = new CircleButton(this, SWT.NONE, 180, "停止",
+				MyFont.fond_song_15);
 
 		GridData PlayGridData = new GridData();
 		PlayGridData.horizontalAlignment = SWT.RIGHT;
@@ -74,7 +56,7 @@ public class HornGroup extends BaseGroup implements OnClickListener {
 		PlayGridData.horizontalSpan = 1;
 		PlayGridData.grabExcessHorizontalSpace = true;
 		PlayGridData.grabExcessVerticalSpace = true;
-		btnPlay.setLayoutData(PlayGridData);
+		cbtnPlay.setLayoutData(PlayGridData);
 
 		GridData StopGridData = new GridData();
 		StopGridData.horizontalAlignment = SWT.LEFT;
@@ -82,7 +64,7 @@ public class HornGroup extends BaseGroup implements OnClickListener {
 		StopGridData.horizontalSpan = 1;
 		StopGridData.grabExcessHorizontalSpace = true;
 		StopGridData.grabExcessVerticalSpace = true;
-		btnStop.setLayoutData(StopGridData);
+		cbtnStop.setLayoutData(StopGridData);
 	}
 
 	@Override
@@ -92,16 +74,13 @@ public class HornGroup extends BaseGroup implements OnClickListener {
 
 	@Override
 	public void initEvent() {
-		btnPlay.addClickListener(this);
-		btnStop.addClickListener(this);
+		cbtnPlay.addClickListener(this);
+		cbtnStop.addClickListener(this);
 	}
 
-	/**
-	 * 图片按钮点击事件
-	 */
-	public void onClick(int viewCode) {
-		switch (viewCode) {
-		case PLAY_CODE:
+	@Override
+	public void onClick(String text) {
+		if (text.equals("播放")) {
 			try {
 				if (mAudioClip == null) {
 					URL musicUrl = HornGroup.class
@@ -115,8 +94,7 @@ public class HornGroup extends BaseGroup implements OnClickListener {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-			break;
-		case STOP_CODE:
+		} else if (text.equals("停止")) {
 			try {
 				if (mAudioClip != null) {
 					mAudioClip.stop();
@@ -125,10 +103,6 @@ public class HornGroup extends BaseGroup implements OnClickListener {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-			break;
-
-		default:
-			break;
 		}
 	}
 

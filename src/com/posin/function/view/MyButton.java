@@ -12,12 +12,12 @@ import org.eclipse.swt.events.PaintListener;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.GC;
+import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Shell;
 
-
-public class CircleButton extends Composite implements PaintListener,
-		MouseListener {
+public class MyButton extends Composite implements PaintListener, MouseListener {
 
 	private Color mBackgroundColor = new Color(Display.getDefault(), 255, 255,
 			255);
@@ -30,13 +30,11 @@ public class CircleButton extends Composite implements PaintListener,
 	private Color mButtonNormalColor = new Color(Display.getDefault(), 0, 191,
 			255);
 
-	private List<OnClickListener> listeners = new ArrayList<OnClickListener>();
+	private List<OnBtnClickListener> listeners = new ArrayList<OnBtnClickListener>();
 
-	// 圆的直径
 	private int mWidth;
+	private int mHeight;
 	private CLabel mLabel;
-
-	Font font = new Font(Display.getDefault(), "宋体", 14, SWT.BOLD);
 
 	/**
 	 * 构造方法
@@ -46,45 +44,37 @@ public class CircleButton extends Composite implements PaintListener,
 	 * @param style
 	 *            类别
 	 * @param buttonWidth
+	 *            按钮宽度
+	 * @param 按钮高度
 	 *            圆的直径
 	 * @param text
 	 *            显示文字
 	 * @param txtFont
 	 *            文字格式
 	 */
-	public CircleButton(Composite parent, int style, int buttonWidth,
-			String text, Font txtFont) {
+	public MyButton(Composite parent, int style, String text, Font txtFont) {
 		super(parent, style);
 
-		this.mWidth = buttonWidth;
-		this.setSize(buttonWidth, buttonWidth);
-		this.setBackground(mBackgroundColor);
 		mLabel = new CLabel(this, SWT.SHADOW_NONE);
 		mLabel.setAlignment(SWT.CENTER);
 		mLabel.setText(text);
-		mLabel.setBounds(10, (mWidth - 20) / 2, buttonWidth - 20, 20);
 		mLabel.setForeground(mTextNormalColor);
 		mLabel.setFont(txtFont);
 		mLabel.setBackground(mButtonNormalColor);
 		mLabel.setEnabled(false);
 
-		CLabel myLabel = new CLabel(this, SWT.SHADOW_NONE);
-		myLabel.setBounds(mWidth, mWidth, 0, 0);
-		myLabel.setEnabled(false);
-
-		this.addPaintListener(this);
 		this.addMouseListener(this);
+		this.addPaintListener(this);
 	}
 
 	public void paintControl(PaintEvent e) {
-		// System.out.println("width: " + this.getBounds().width);
-		// System.out.println("height: " + this.getBounds().height);
-
 		GC gc = e.gc;
 		gc.setAdvanced(true);
 		gc.setAntialias(SWT.ON);
-		gc.setBackground(mButtonNormalColor);
-		gc.fillOval(0, 0, mWidth, mWidth);
+		gc.setBackground(mBackgroundColor);
+		gc.fillRectangle(0, 0, this.getBounds().width, this.getBounds().height);
+
+		mLabel.setSize(this.getBounds().width, this.getBounds().height);
 	}
 
 	public void mouseDoubleClick(MouseEvent e) {
@@ -93,34 +83,27 @@ public class CircleButton extends Composite implements PaintListener,
 
 	public void mouseDown(MouseEvent e) {
 
-		// 计算点到圆心的距离
-		int result = (int) Math.sqrt(Math.pow((e.x - mWidth / 2), 2)
-				+ Math.pow((e.y - mWidth / 2), 2));
-
-		if (result <= mWidth / 2) {
-			GC gc = new GC(CircleButton.this);
-			gc.setBackground(mButtonPressColor);
-			gc.setAdvanced(true);
-			gc.setAntialias(SWT.ON);
-			gc.fillOval(0, 0, mWidth, mWidth);
-			mLabel.setBackground(mButtonPressColor);
-			mLabel.setForeground(mTextPressColor);
-			gc.dispose();
-
-		}
+		GC gc = new GC(MyButton.this);
+		gc.setBackground(mButtonPressColor);
+		gc.setAdvanced(true);
+		gc.setAntialias(SWT.ON);
+		gc.fillRectangle(0, 0, mWidth, mHeight);
+		mLabel.setBackground(mButtonPressColor);
+		mLabel.setForeground(mTextPressColor);
+		gc.dispose();
 	}
 
 	public void mouseUp(MouseEvent e) {
-		GC gc = new GC(CircleButton.this);
+		GC gc = new GC(MyButton.this);
 		gc.setBackground(mButtonNormalColor);
 		gc.setAdvanced(true);
 		gc.setAntialias(SWT.ON);
-		gc.fillOval(0, 0, mWidth, mWidth);
+		gc.fillRectangle(0, 0, mWidth, mHeight);
 		mLabel.setBackground(mButtonNormalColor);
 		mLabel.setForeground(mTextPressColor);
 		gc.dispose();
-		for (OnClickListener listener : listeners) {
-			listener.onClick(mLabel.getText());
+		for (OnBtnClickListener listener : listeners) {
+			listener.onBtnClick(mLabel.getText());
 		}
 	}
 
@@ -129,7 +112,7 @@ public class CircleButton extends Composite implements PaintListener,
 	 * 
 	 * @param listener
 	 */
-	public void addClickListener(OnClickListener listener) {
+	public void addBtnClickListener(OnBtnClickListener listener) {
 		listeners.add(listener);
 	}
 
@@ -138,7 +121,7 @@ public class CircleButton extends Composite implements PaintListener,
 	 * 
 	 * @param listener
 	 */
-	public void removeClickListener(OnClickListener listener) {
+	public void removeBtnClickListener(OnBtnClickListener listener) {
 		listeners.remove(listener);
 	}
 
@@ -148,18 +131,18 @@ public class CircleButton extends Composite implements PaintListener,
 	 * @author Lifeng-Leven
 	 * 
 	 */
-	public interface OnClickListener {
-		public void onClick(String text);
+	public interface OnBtnClickListener {
+		public void onBtnClick(String text);
 	}
 
-	 /**
+	/**
 	 * 设置按钮父容器的背景颜色
-	 *
+	 * 
 	 * @param color
 	 */
-	 public void setMyBackGround(Color color) {
-	 this.mBackgroundColor = color;
-	 }
+	public void setBackGound(Color color) {
+		this.mBackgroundColor = color;
+	}
 
 	/**
 	 * 字体正常颜色
@@ -198,9 +181,9 @@ public class CircleButton extends Composite implements PaintListener,
 	}
 
 	public void setMyLayoutData(Object btnData) {
-		if (!this.isDisposed()) {
-			CircleButton.this.setLayoutData(btnData);
+		if (!this.isDisposed() && btnData != null) {
+
+			MyButton.this.setLayoutData(btnData);
 		}
 	}
-
 }

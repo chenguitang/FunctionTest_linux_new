@@ -35,7 +35,7 @@ public class ImageButton {
 	 */
 	private boolean isDisabled = false;
 
-	private List<OnClickListener> listeners = new ArrayList<OnClickListener>();
+	private List<OnImageBtnClickListener> listeners = new ArrayList<OnImageBtnClickListener>();
 
 	/**
 	 * 自定义带图片的按钮控件
@@ -110,8 +110,8 @@ public class ImageButton {
 							label.setImage(ImageButton.this.mouseOverImage);
 						}
 					}
-					for (OnClickListener listener : listeners) {
-						listener.onClick(viewCode);
+					for (OnImageBtnClickListener listener : listeners) {
+						listener.onImageBtnClick(viewCode);
 					}
 				}
 			}
@@ -155,7 +155,7 @@ public class ImageButton {
 	 * 
 	 * @param listener
 	 */
-	public void addClickListener(OnClickListener listener) {
+	public void addImageBtnClickListener(OnImageBtnClickListener listener) {
 		listeners.add(listener);
 	}
 
@@ -164,7 +164,7 @@ public class ImageButton {
 	 * 
 	 * @param listener
 	 */
-	public void removeClickListener(OnClickListener listener) {
+	public void removeImageBtnClickListener(OnImageBtnClickListener listener) {
 		listeners.remove(listener);
 	}
 
@@ -174,8 +174,8 @@ public class ImageButton {
 	 * @author Lifeng-Leven
 	 * 
 	 */
-	public interface OnClickListener {
-		public void onClick(int viewCode);
+	public interface OnImageBtnClickListener {
+		public void onImageBtnClick(int viewCode);
 	}
 
 	public void setLayoutData(Object btnData) {

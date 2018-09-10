@@ -1,18 +1,17 @@
 package com.posin.function.group;
 
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Monitor;
 
 import com.posin.function.base.BaseGroup;
+import com.posin.function.font.MyFont;
 import com.posin.function.module.secondary.SecDisplayImage;
 import com.posin.function.module.secondary.SecDisplayText;
-import com.posin.function.view.ImageButton;
-import com.posin.function.view.ImageButton.OnClickListener;
+import com.posin.function.view.CircleButton;
+import com.posin.function.view.CircleButton.OnClickListener;
 
 /**
  * 副屏测试页面
@@ -31,8 +30,10 @@ public class SecondaryDisplayGroup extends BaseGroup implements OnClickListener 
 	 */
 	public static final int SEC_SHOW_IMAGE = 103;
 
-	private ImageButton btnShowText;
-	private ImageButton btnShowImage;
+	private CircleButton cbtnShowText;
+	private CircleButton cbtnShowImage;
+	private SecDisplayImage mSecDisplayImage;
+	private SecDisplayText mSecDisplayText;
 
 	public SecondaryDisplayGroup(Composite parent, int style) {
 		super(parent, style);
@@ -40,22 +41,6 @@ public class SecondaryDisplayGroup extends BaseGroup implements OnClickListener 
 
 	@Override
 	public void initUI() {
-
-		Image normalDisplayTextImage = new Image(Display.getCurrent(), this
-				.getClass().getResourceAsStream(
-						"/images/sec_show_text_normal.png"));
-
-		Image pressDisplayTextImage = new Image(Display.getCurrent(), this
-				.getClass().getResourceAsStream(
-						"/images/sec_show_text_press.png"));
-
-		Image normalDisplayImageBtn = new Image(Display.getCurrent(), this
-				.getClass().getResourceAsStream(
-						"/images/sec_show_image_normal.png"));
-
-		Image pressDisplayImageBtn = new Image(Display.getCurrent(), this
-				.getClass().getResourceAsStream(
-						"/images/sec_show_image_press.png"));
 
 		GridLayout SecDisplayGridLayout = new GridLayout();
 		SecDisplayGridLayout.numColumns = 2;
@@ -65,12 +50,10 @@ public class SecondaryDisplayGroup extends BaseGroup implements OnClickListener 
 		// this.setLayout(new GridLayout(5, false));
 		this.setLayout(SecDisplayGridLayout);
 
-		btnShowText = new ImageButton(this, normalDisplayTextImage,
-				normalDisplayTextImage, pressDisplayTextImage,
-				normalDisplayTextImage, SEC_SHOW_TEXT);
-		btnShowImage = new ImageButton(this, normalDisplayImageBtn,
-				normalDisplayImageBtn, pressDisplayImageBtn,
-				normalDisplayImageBtn, SEC_SHOW_IMAGE);
+		cbtnShowText = new CircleButton(this, SWT.NONE, 180, "副屏显示文字",
+				MyFont.fond_song_15);
+		cbtnShowImage = new CircleButton(this, SWT.NONE, 180, "副屏显示图片",
+				MyFont.fond_song_15);
 
 		GridData displayTextGridData = new GridData();
 		displayTextGridData.horizontalAlignment = SWT.RIGHT;
@@ -78,7 +61,7 @@ public class SecondaryDisplayGroup extends BaseGroup implements OnClickListener 
 		displayTextGridData.horizontalSpan = 1;
 		displayTextGridData.grabExcessHorizontalSpace = true;
 		displayTextGridData.grabExcessVerticalSpace = true;
-		btnShowText.setLayoutData(displayTextGridData);
+		cbtnShowText.setLayoutData(displayTextGridData);
 
 		GridData displayImageGridData = new GridData();
 		displayImageGridData.horizontalAlignment = SWT.LEFT;
@@ -86,7 +69,7 @@ public class SecondaryDisplayGroup extends BaseGroup implements OnClickListener 
 		displayImageGridData.horizontalSpan = 1;
 		displayImageGridData.grabExcessHorizontalSpace = true;
 		displayImageGridData.grabExcessVerticalSpace = true;
-		btnShowImage.setLayoutData(displayImageGridData);
+		cbtnShowImage.setLayoutData(displayImageGridData);
 	}
 
 	@Override
@@ -96,42 +79,9 @@ public class SecondaryDisplayGroup extends BaseGroup implements OnClickListener 
 
 	@Override
 	public void initEvent() {
-		btnShowText.addClickListener(this);
-		btnShowImage.addClickListener(this);
+		cbtnShowText.addClickListener(this);
+		cbtnShowImage.addClickListener(this);
 	}
-
-	/**
-	 * 图片按钮点击事件
-	 */
-	public void onClick(int viewCode) {
-		switch (viewCode) {
-		case SEC_SHOW_TEXT:
-			try {
-				System.out.println("secondary display show text .");
-
-				showOnSecondaryScreen(SEC_SHOW_TEXT);
-
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-			break;
-		case SEC_SHOW_IMAGE:
-			try {
-				System.out.println("secondary display show image .");
-
-				showOnSecondaryScreen(SEC_SHOW_IMAGE);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-			break;
-
-		default:
-			break;
-		}
-	}
-
-	private SecDisplayImage mSecDisplayImage;
-	private SecDisplayText mSecDisplayText;
 
 	/**
 	 * 在副屏显示内容
@@ -165,6 +115,28 @@ public class SecondaryDisplayGroup extends BaseGroup implements OnClickListener 
 					}
 					mSecDisplayText.open();
 				}
+			}
+		}
+	}
+
+	@Override
+	public void onClick(String text) {
+		if (text.equals("副屏显示文字")) {
+			try {
+				System.out.println("secondary display show text .");
+
+				showOnSecondaryScreen(SEC_SHOW_TEXT);
+
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		} else if (text.equals("副屏显示图片")) {
+			try {
+				System.out.println("secondary display show image .");
+
+				showOnSecondaryScreen(SEC_SHOW_IMAGE);
+			} catch (Exception e) {
+				e.printStackTrace();
 			}
 		}
 	}

@@ -163,6 +163,7 @@ public class TouchTest extends BaseDispaly implements PaintListener,
 		if (e.x > 0 && e.x < BLOCK_SIZE_X && e.y > 0 && e.y < BLOCK_SIZE_Y) {
 			exitLabel.setBackground(new Color(display, 0, 191, 255));
 		}
+		
 		int x = (e.x / BLOCK_SIZE_X) * BLOCK_SIZE_X;
 		int y = (e.y / BLOCK_SIZE_Y) * BLOCK_SIZE_Y;
 		GC mouseGc = new GC(shell);
