@@ -265,9 +265,9 @@ public class MainLayout implements MouseListener {
 							+ emptySpaceStr);
 				}
 				tabItem.setControl(listGroups.get(i));
-//				if (i == 0) {
-//					tabItem.setControl(listGroups.get(1));
-//				}
+				if (i == 0) {
+					tabItem.setControl(listGroups.get(1));
+				}
 
 			}
 
@@ -294,7 +294,7 @@ public class MainLayout implements MouseListener {
 	public void mouseUp(MouseEvent mouseEvent) {
 		Widget actinView = mouseEvent.widget;
 		if (actinView.equals(exitAppLabel)) {
-			System.out.println("....   exit app ....");
+			// System.out.println("....   exit app ....");
 			System.exit(0);
 
 			// shell.setVisible(false);

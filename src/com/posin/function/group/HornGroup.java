@@ -39,7 +39,7 @@ public class HornGroup extends BaseGroup implements OnClickListener {
 
 		GridLayout cashDrawerGridLayout = new GridLayout();
 		cashDrawerGridLayout.numColumns = 2;
-		cashDrawerGridLayout.horizontalSpacing = 200;
+		cashDrawerGridLayout.horizontalSpacing = 300;
 		// cashDrawerGridLayout.marginRight = 200;
 		cashDrawerGridLayout.marginBottom = 200;
 		// this.setLayout(new GridLayout(5, false));

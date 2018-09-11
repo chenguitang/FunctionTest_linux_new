@@ -35,6 +35,7 @@ public class MyButton extends Composite implements PaintListener, MouseListener 
 	private int mWidth;
 	private int mHeight;
 	private CLabel mLabel;
+	private int mViewCode;
 
 	/**
 	 * 构造方法
@@ -52,9 +53,11 @@ public class MyButton extends Composite implements PaintListener, MouseListener 
 	 * @param txtFont
 	 *            文字格式
 	 */
-	public MyButton(Composite parent, int style, String text, Font txtFont) {
+	public MyButton(Composite parent, int style, String text, Font txtFont,
+			int viewCode) {
 		super(parent, style);
 
+		this.mViewCode = viewCode;
 		mLabel = new CLabel(this, SWT.SHADOW_NONE);
 		mLabel.setAlignment(SWT.CENTER);
 		mLabel.setText(text);
@@ -103,7 +106,7 @@ public class MyButton extends Composite implements PaintListener, MouseListener 
 		mLabel.setForeground(mTextPressColor);
 		gc.dispose();
 		for (OnBtnClickListener listener : listeners) {
-			listener.onBtnClick(mLabel.getText());
+			listener.onBtnClick(mViewCode);
 		}
 	}
 
@@ -132,7 +135,7 @@ public class MyButton extends Composite implements PaintListener, MouseListener 
 	 * 
 	 */
 	public interface OnBtnClickListener {
-		public void onBtnClick(String text);
+		public void onBtnClick(int viewCode);
 	}
 
 	/**

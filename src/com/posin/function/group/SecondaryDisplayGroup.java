@@ -44,7 +44,7 @@ public class SecondaryDisplayGroup extends BaseGroup implements OnClickListener 
 
 		GridLayout SecDisplayGridLayout = new GridLayout();
 		SecDisplayGridLayout.numColumns = 2;
-		SecDisplayGridLayout.horizontalSpacing = 200;
+		SecDisplayGridLayout.horizontalSpacing = 300;
 		// SecDisplayGridLayout.marginRight = 200;
 		SecDisplayGridLayout.marginBottom = 200;
 		// this.setLayout(new GridLayout(5, false));
